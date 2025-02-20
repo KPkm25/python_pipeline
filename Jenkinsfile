@@ -21,6 +21,7 @@ pipeline {
                     sh '''
                         bash -c "source venv/bin/activate"
                         venv/bin/pip install -r requirements.txt
+			venv/bin/pip install setuptools
                     '''
                 }
             }
