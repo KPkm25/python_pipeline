@@ -11,18 +11,16 @@ pipeline {
                 script {
                     // Create a virtual environment
                     sh 'python3 -m venv venv'
-                    // Activate the virtual environment using bash
-                    sh 'bash -c "source venv/bin/activate"'
                 }
             }
         }
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Activate the virtual environment and install dependencies
+                    // Use the pip from the virtual environment to install dependencies
                     sh '''
-                        bash -c "source venv/bin/activate"
-                        pip install -r requirements.txt
+                        source venv/bin/activate
+                        venv/bin/pip install -r requirements.txt
                     '''
                 }
             }
@@ -30,10 +28,10 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Activate the virtual environment and run tests
+                    // Use the python and pip from the virtual environment
                     sh '''
-                        bash -c "source venv/bin/activate"
-                        pytest tests/
+                        source venv/bin/activate
+                        venv/bin/pytest tests/
                     '''
                 }
             }
@@ -41,10 +39,10 @@ pipeline {
         stage('Build Artifact') {
             steps {
                 script {
-                    // Activate the virtual environment and build the artifact
+                    // Use python from the virtual environment to build the artifact
                     sh '''
-                        bash -c "source venv/bin/activate"
-                        python setup.py sdist
+                        source venv/bin/activate
+                        venv/bin/python setup.py sdist
                     '''
                 }
             }
