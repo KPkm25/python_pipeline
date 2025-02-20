@@ -49,4 +49,8 @@ pipeline {
         }
         stage('Archive Artifact') {
             steps {
-                archiveArtifacts artifa
+                archiveArtifacts artifacts: 'dist/*.tar.gz', fingerprint: true
+            }
+        }
+    }
+}
