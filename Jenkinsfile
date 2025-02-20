@@ -3,22 +3,50 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git url:'https://github.com/KPkm25/python_pipeline.git', branch:'main'
+                git 'https://github.com/KPkm25/python_pipeline.git'
+            }
+        }
+        stage('Set up Virtual Environment') {
+            steps {
+                script {
+                    // Create a virtual environment
+                    sh 'python3 -m venv venv'
+                    // Activate the virtual environment
+                    sh 'source venv/bin/activate'
+                }
             }
         }
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                script {
+                    // Activate the virtual environment and install dependencies
+                    sh '''
+                        source venv/bin/activate
+                        pip install -r requirements.txt
+                    '''
+                }
             }
         }
         stage('Run Tests') {
             steps {
-                sh 'pytest tests/'
+                script {
+                    // Activate the virtual environment and run tests
+                    sh '''
+                        source venv/bin/activate
+                        pytest tests/
+                    '''
+                }
             }
         }
         stage('Build Artifact') {
             steps {
-                sh 'python setup.py sdist'
+                script {
+                    // Activate the virtual environment and build the artifact
+                    sh '''
+                        source venv/bin/activate
+                        python setup.py sdist
+                    '''
+                }
             }
         }
         stage('Archive Artifact') {
