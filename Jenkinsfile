@@ -28,9 +28,10 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Use bash to activate the virtual environment and run tests
+                    // Use bash to activate the virtual environment and run tests with PYTHONPATH set
                     sh '''
                         bash -c "source venv/bin/activate"
+                        export PYTHONPATH=$(pwd)  # Set PYTHONPATH to the current directory
                         venv/bin/pytest tests/
                     '''
                 }
